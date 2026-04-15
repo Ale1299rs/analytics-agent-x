@@ -1,0 +1,78 @@
+- recipe_name: "Trend analysis signups"
+  triggers:
+    - "signups"
+    - "iscrizioni"
+    - "calo"
+    - "trend"
+    - "scesi"
+    - "crescita"
+  analysis_steps:
+    - "Identificare il trend temporale dei signups"
+    - "Segmentare per paese e device"
+    - "Confrontare settimana corrente con precedente"
+  validation_rules:
+    - "Presenza di un filtro temporale"
+    - "Uso delle dimensioni paese o device"
+  preferred_tables:
+    - "fact_signups"
+    - "dim_country"
+    - "dim_device"
+  anti_patterns:
+    - "query senza filtro data"
+    - "aggregazioni su tutto il dataset senza GROUP BY"
+
+- recipe_name: "Order and revenue analysis"
+  triggers:
+    - "ordini"
+    - "orders"
+    - "revenue"
+    - "fatturato"
+    - "ricavi"
+  analysis_steps:
+    - "Analizzare il trend ordini nel tempo"
+    - "Correlare ordini con revenue"
+    - "Confrontare performance per paese e device"
+  validation_rules:
+    - "Verificare che venga usata fact_orders"
+    - "Limitare le righe per query esplorative"
+  preferred_tables:
+    - "fact_orders"
+    - "dim_country"
+    - "dim_device"
+  anti_patterns:
+    - "join inutili con tabelle non rilevanti"
+    - "filtri mancanti su date"
+
+- recipe_name: "Country breakdown"
+  triggers:
+    - "paese"
+    - "paesi"
+    - "country"
+    - "geografica"
+  analysis_steps:
+    - "Aggregare metriche per paese"
+    - "Ordinare per la metrica principale"
+    - "Identificare top/bottom performer"
+  validation_rules:
+    - "GROUP BY su dim_country.name"
+    - "ORDER BY sulla metrica"
+  preferred_tables:
+    - "dim_country"
+  anti_patterns:
+    - "mancanza di GROUP BY"
+
+- recipe_name: "Device comparison"
+  triggers:
+    - "mobile"
+    - "desktop"
+    - "device"
+    - "dispositivo"
+  analysis_steps:
+    - "Confrontare metriche tra mobile e desktop"
+    - "Calcolare delta e percentuali"
+  validation_rules:
+    - "GROUP BY su dim_device.name"
+  preferred_tables:
+    - "dim_device"
+  anti_patterns:
+    - "confronto senza GROUP BY"

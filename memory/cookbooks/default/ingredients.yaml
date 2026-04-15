@@ -1,0 +1,76 @@
+- name: fact_signups
+  description: "Tabella dei signups giornalieri con riferimento a paese e device."
+  grain: "daily"
+  date_column: "date"
+  columns:
+    - id
+    - date
+    - country_id
+    - device_id
+    - signups
+  joins:
+    - table: dim_country
+      key: "country_id"
+      target_key: "id"
+    - table: dim_device
+      key: "device_id"
+      target_key: "id"
+  required_filters:
+    - "date"
+  preferred_dimensions:
+    - "country"
+    - "device"
+  example_questions:
+    - "Perché i signups sono scesi la scorsa settimana?"
+    - "Il mobile ha performato peggio del desktop?"
+    - "Quanti signups abbiamo avuto per paese?"
+
+- name: fact_orders
+  description: "Tabella degli ordini e revenue giornalieri con riferimento a paese e device."
+  grain: "daily"
+  date_column: "date"
+  columns:
+    - id
+    - date
+    - country_id
+    - device_id
+    - orders
+    - revenue
+  joins:
+    - table: dim_country
+      key: "country_id"
+      target_key: "id"
+    - table: dim_device
+      key: "device_id"
+      target_key: "id"
+  required_filters:
+    - "date"
+  preferred_dimensions:
+    - "country"
+    - "device"
+  example_questions:
+    - "Gli ordini hanno seguito lo stesso trend dei signups?"
+    - "Quali paesi hanno guidato la crescita dei ricavi?"
+    - "Qual è il revenue medio per ordine?"
+
+- name: dim_country
+  description: "Dimensione paese con id e nome."
+  grain: "reference"
+  columns:
+    - id
+    - name
+  joins: []
+  required_filters: []
+  preferred_dimensions: []
+  example_questions: []
+
+- name: dim_device
+  description: "Dimensione device (mobile/desktop) con id e nome."
+  grain: "reference"
+  columns:
+    - id
+    - name
+  joins: []
+  required_filters: []
+  preferred_dimensions: []
+  example_questions: []
